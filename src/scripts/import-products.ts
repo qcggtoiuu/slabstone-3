@@ -1,5 +1,3 @@
-import { createClient } from "@supabase/supabase-js";
-
 // Import the server-side Supabase client that already has the environment variables configured
 import { createClient } from "../../supabase/server";
 
