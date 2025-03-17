@@ -1,0 +1,40 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Script from "next/script";
+import { TempoInit } from "@/components/tempo-init";
+import { ThemeProvider } from "@/components/theme-provider";
+import { AdminAuthProvider } from "@/components/admin-auth-provider";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Product Showcase - Admin Panel",
+  description:
+    "A product showcase website with admin panel for product management",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <Script src="https://api.tempolabs.ai/proxy-asset?url=https://storage.googleapis.com/tempo-public-assets/error-handling.js" />
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AdminAuthProvider>
+            {children}
+            <TempoInit />
+          </AdminAuthProvider>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
