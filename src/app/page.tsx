@@ -5,6 +5,8 @@ import { Metadata } from "next";
 import { createClient } from "../../supabase/server";
 import FeaturedProductsClient from "@/components/products/featured-products-client";
 import VideoHero from "@/components/video-hero";
+import TechnologySection from "@/components/technology-section";
+import VideoIntroduction from "@/components/video-introduction";
 
 export const metadata: Metadata = {
   title: "Premium Products Showcase | Home",
@@ -66,6 +68,12 @@ export default async function Home() {
 
       {/* Hero Section with Video Background */}
       <VideoHero />
+
+      {/* Technology Section */}
+      <TechnologySection />
+
+      {/* Video Introduction Section */}
+      <VideoIntroduction />
 
       {/* Featured Products Section */}
       <section className="py-24 bg-white">

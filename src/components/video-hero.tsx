@@ -1,31 +1,40 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "./ui/button";
 
 export default function VideoHero() {
   const videoRef = useRef<HTMLIFrameElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Function to scroll down smoothly
   const scrollDown = () => {
-    window.scrollTo({
-      top: window.innerHeight,
-      behavior: "smooth",
-    });
+    if (typeof window !== "undefined") {
+      window.scrollTo({
+        top: window.innerHeight,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
     <div className="relative md:h-[600px] h-screen w-full overflow-hidden">
       {/* YouTube Video Background */}
       <div className="absolute inset-0 w-full h-full overflow-hidden bg-black">
-        <iframe
-          ref={videoRef}
-          src="https://www.youtube.com/embed/KQF2qSRpNTg?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&playlist=KQF2qSRpNTg&vq=hd1080"
-          className="absolute w-[150%] h-[150%] md:h-[150%] md:w-[150%] object-cover top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
+        {isMounted && (
+          <iframe
+            ref={videoRef}
+            src="https://www.youtube.com/embed/KQF2qSRpNTg?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&playlist=KQF2qSRpNTg"
+            className="absolute w-[150%] h-[150%] md:h-[150%] md:w-[150%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        )}
       </div>
 
       {/* Overlay */}
@@ -44,7 +53,11 @@ export default function VideoHero() {
           <Button
             size="lg"
             className="bg-white text-black hover:bg-gray-200 transition-colors"
-            onClick={() => (window.location.href = "/products")}
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.location.href = "/products";
+              }
+            }}
           >
             Khám phá ngay
           </Button>
