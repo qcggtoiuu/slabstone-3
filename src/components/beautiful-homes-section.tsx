@@ -40,7 +40,7 @@ export default function BeautifulHomesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-6">
           {homes.map((home, index) => (
             <div key={index} className="overflow-hidden rounded-lg">
               <div className="relative aspect-[16/9]">

@@ -6,9 +6,23 @@ import { Button } from "./ui/button";
 export default function VideoHero() {
   const videoRef = useRef<HTMLIFrameElement>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", checkMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Function to scroll down smoothly
@@ -21,6 +35,11 @@ export default function VideoHero() {
     }
   };
 
+  // Video URL based on device type
+  const videoUrl = isMobile
+    ? "https://youtube.com/embed/FQZNs2zXC9c?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&playlist=FQZNs2zXC9c&playsinline=1"
+    : "https://www.youtube.com/embed/KQF2qSRpNTg?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&playlist=KQF2qSRpNTg";
+
   return (
     <div className="relative md:h-[600px] h-screen w-full overflow-hidden">
       {/* YouTube Video Background */}
@@ -28,10 +47,10 @@ export default function VideoHero() {
         {isMounted && (
           <iframe
             ref={videoRef}
-            src="https://www.youtube.com/embed/KQF2qSRpNTg?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&playlist=KQF2qSRpNTg"
+            src={videoUrl}
             className="absolute w-[150%] h-[150%] md:h-[150%] md:w-[150%] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; playsinline"
             allowFullScreen
           ></iframe>
         )}

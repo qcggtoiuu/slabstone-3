@@ -21,10 +21,8 @@ export default function ExclusiveTechnology() {
             CÔNG NGHỆ ĐỘC QUYỀN
           </h2>
           <p className="text-white text-lg max-w-3xl mx-auto">
-            <span className="bg-blue-600 px-2 py-1">
-              Khám phá hai công nghệ độc quyền tạo nên sự khác biệt của đá
-              SLABSTONE
-            </span>
+            Khám phá hai công nghệ độc quyền tạo nên sự khác biệt của đá
+            SLABSTONE
           </p>
         </div>
       </div>
