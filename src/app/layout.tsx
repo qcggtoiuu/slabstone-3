@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { AdminAuthProvider } from "@/components/admin-auth-provider";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import Topbar from "@/components/topbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AdminAuthProvider>
+            <Topbar />
             <Navbar />
             {children}
             <Footer />
