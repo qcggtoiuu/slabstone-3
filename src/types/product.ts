@@ -21,8 +21,8 @@ export interface ProductImage {
   id: string;
   product_id: string;
   url: string;
-  alt_text?: string;
-  is_primary: boolean;
-  display_order: number;
-  created_at: string;
+  alt_text: string | null;
+  is_primary: boolean | null;
+  display_order: number | null;
+  created_at: string | null;
 }
