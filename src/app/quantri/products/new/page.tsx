@@ -11,7 +11,10 @@ import { useState } from "react";
 
 export default function NewProductPage() {
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  });
 
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
