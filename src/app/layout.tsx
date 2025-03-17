@@ -5,6 +5,8 @@ import Script from "next/script";
 import { TempoInit } from "./tempo-init";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AdminAuthProvider } from "@/components/admin-auth-provider";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,7 +34,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AdminAuthProvider>
+            <Navbar />
             {children}
+            <Footer />
             <TempoInit />
           </AdminAuthProvider>
         </ThemeProvider>

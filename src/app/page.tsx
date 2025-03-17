@@ -1,5 +1,3 @@
-import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
 import ProductGrid from "@/components/products/product-grid";
 import { Metadata } from "next";
 import { createClient } from "../../supabase/server";
@@ -72,8 +70,6 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-      <Navbar />
-
       {/* Hero Section with Video Background */}
       <VideoHero />
 
@@ -176,8 +172,6 @@ export default async function Home() {
 
       {/* News Section */}
       <NewsSection />
-
-      <Footer />
     </div>
   );
 }

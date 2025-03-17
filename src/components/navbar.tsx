@@ -47,13 +47,13 @@ export default function Navbar() {
             Sản phẩm
           </Link>
           <Link
-            href="/projects"
+            href="/du-an"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Dự án
           </Link>
           <Link
-            href="/pricing"
+            href="/bang-gia"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Bảng giá
@@ -65,7 +65,7 @@ export default function Navbar() {
             Tin tức
           </Link>
           <Link
-            href="/contact"
+            href="/lien-he"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Liên hệ
@@ -103,14 +103,14 @@ export default function Navbar() {
                 Sản phẩm
               </Link>
               <Link
-                href="/projects"
+                href="/du-an"
                 className="text-lg font-medium text-gray-700 hover:text-gray-900"
                 onClick={() => setIsOpen(false)}
               >
                 Dự án
               </Link>
               <Link
-                href="/pricing"
+                href="/bang-gia"
                 className="text-lg font-medium text-gray-700 hover:text-gray-900"
                 onClick={() => setIsOpen(false)}
               >
@@ -124,7 +124,7 @@ export default function Navbar() {
                 Tin tức
               </Link>
               <Link
-                href="/contact"
+                href="/lien-he"
                 className="text-lg font-medium text-gray-700 hover:text-gray-900"
                 onClick={() => setIsOpen(false)}
               >

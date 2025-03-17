@@ -1,5 +1,4 @@
-import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
+// Navbar and Footer are now in the root layout
 import ProductGrid from "@/components/products/product-grid";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
@@ -104,8 +103,6 @@ export default async function ProductsPage({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-      <Navbar />
-
       <div className="container mx-auto px-4 py-8 md:py-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 gap-4">
           <div>
@@ -405,8 +402,6 @@ export default async function ProductsPage({
           </div>
         </section>
       </div>
-
-      <Footer />
     </div>
   );
 }

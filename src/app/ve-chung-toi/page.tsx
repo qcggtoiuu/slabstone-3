@@ -1,6 +1,5 @@
 import { Metadata } from "next";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+// Navbar and Footer are now in the root layout
 import Image from "next/image";
 import ProductFeatures from "@/components/product-features";
 import InnovationSection from "@/components/innovation-section";
@@ -15,8 +14,6 @@ export const metadata: Metadata = {
 export default function AboutUsPage() {
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
-
       {/* Hero Section */}
       <section className="relative h-[400px] flex items-center justify-center">
         <div className="absolute inset-0 w-full h-full">
@@ -278,8 +275,6 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }
