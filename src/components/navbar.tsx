@@ -17,7 +17,7 @@ export default function Navbar() {
         </Link>
         <div className="flex gap-8 items-center">
           <Link
-            href="/"
+            href="/ve-chung-toi"
             className="text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             Về chúng tôi

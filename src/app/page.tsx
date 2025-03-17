@@ -12,6 +12,9 @@ import WhyChooseSlabstone from "@/components/why-choose-slabstone";
 import PartnershipSection from "@/components/partnership-section";
 import BeautifulHomesSection from "@/components/beautiful-homes-section";
 import NewsSection from "@/components/news-section";
+import ProductFeatures from "@/components/product-features";
+import InnovationSection from "@/components/innovation-section";
+import FactorySection from "@/components/factory-section";
 
 export const metadata: Metadata = {
   title: "Premium Products Showcase | Home",
@@ -86,8 +89,13 @@ export default async function Home() {
       {/* Why Choose Slabstone Section */}
       <WhyChooseSlabstone />
 
+      {/* Product Features Section */}
+      <ProductFeatures />
+
       {/* Partnership Section */}
       <PartnershipSection />
+
+      {/* No Innovation and Factory sections on homepage */}
 
       {/* Featured Products Section */}
       <section className="py-24 bg-white">

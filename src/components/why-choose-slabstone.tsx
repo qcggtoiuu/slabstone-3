@@ -35,8 +35,10 @@ const Feature = ({
   bgColor,
   imageUrl,
 }: FeatureProps) => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div
           className={`${bgColor} p-6 rounded-lg flex flex-col items-center justify-center text-center h-full cursor-pointer transition-transform hover:scale-105`}
