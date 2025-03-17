@@ -7,6 +7,11 @@ import FeaturedProductsClient from "@/components/products/featured-products-clie
 import VideoHero from "@/components/video-hero";
 import TechnologySection from "@/components/technology-section";
 import VideoIntroduction from "@/components/video-introduction";
+import ExclusiveTechnology from "@/components/exclusive-technology";
+import WhyChooseSlabstone from "@/components/why-choose-slabstone";
+import PartnershipSection from "@/components/partnership-section";
+import BeautifulHomesSection from "@/components/beautiful-homes-section";
+import NewsSection from "@/components/news-section";
 
 export const metadata: Metadata = {
   title: "Premium Products Showcase | Home",
@@ -74,6 +79,15 @@ export default async function Home() {
 
       {/* Video Introduction Section */}
       <VideoIntroduction />
+
+      {/* Exclusive Technology Section */}
+      <ExclusiveTechnology />
+
+      {/* Why Choose Slabstone Section */}
+      <WhyChooseSlabstone />
+
+      {/* Partnership Section */}
+      <PartnershipSection />
 
       {/* Featured Products Section */}
       <section className="py-24 bg-white">
@@ -149,30 +163,11 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Need More Information?</h2>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            Download our product catalog or contact our team for detailed
-            specifications.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="#"
-              className="inline-flex items-center px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Download Catalog
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-            >
-              Contact Us
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* Beautiful Homes Section */}
+      <BeautifulHomesSection />
+
+      {/* News Section */}
+      <NewsSection />
 
       <Footer />
     </div>
