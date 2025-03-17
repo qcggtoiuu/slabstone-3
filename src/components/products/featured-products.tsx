@@ -69,21 +69,21 @@ export default function FeaturedProducts() {
       const uniqueColors = [
         ...new Set(
           colorsData
-            ?.map((item: { color: string }) => item.color)
+            ?.map((item: { color: string | null }) => item.color)
             .filter(Boolean),
         ),
       ];
       const uniqueSurfaces = [
         ...new Set(
           surfacesData
-            ?.map((item: { surface: string }) => item.surface)
+            ?.map((item: { surface: string | null }) => item.surface)
             .filter(Boolean),
         ),
       ];
       const uniqueApplications = [
         ...new Set(
           applicationsData
-            ?.map((item: { application: string }) => item.application)
+            ?.map((item: { application: string | null }) => item.application)
             .filter(Boolean),
         ),
       ];
