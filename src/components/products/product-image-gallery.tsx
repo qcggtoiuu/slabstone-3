@@ -14,7 +14,9 @@ export default function ProductImageGallery({
   // If no images, use placeholder
   const images =
     product.images && product.images.length > 0
-      ? product.images.sort((a, b) => a.display_order - b.display_order)
+      ? product.images.sort(
+          (a, b) => (a.display_order ?? 0) - (b.display_order ?? 0),
+        )
       : [
           {
             id: "placeholder",
