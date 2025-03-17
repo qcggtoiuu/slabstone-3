@@ -67,14 +67,24 @@ export default function FeaturedProducts() {
 
       // Extract unique values
       const uniqueColors = [
-        ...new Set(colorsData?.map((item) => item.color).filter(Boolean)),
+        ...new Set(
+          colorsData
+            ?.map((item: { color: string }) => item.color)
+            .filter(Boolean),
+        ),
       ];
       const uniqueSurfaces = [
-        ...new Set(surfacesData?.map((item) => item.surface).filter(Boolean)),
+        ...new Set(
+          surfacesData
+            ?.map((item: { surface: string }) => item.surface)
+            .filter(Boolean),
+        ),
       ];
       const uniqueApplications = [
         ...new Set(
-          applicationsData?.map((item) => item.application).filter(Boolean),
+          applicationsData
+            ?.map((item: { application: string }) => item.application)
+            .filter(Boolean),
         ),
       ];
 
