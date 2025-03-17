@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient as supabaseCreateClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase";
 
 export const createClient = () => {
@@ -9,5 +9,5 @@ export const createClient = () => {
     throw new Error("Missing Supabase environment variables");
   }
 
-  return createClient<Database>(supabaseUrl, supabaseAnonKey);
+  return supabaseCreateClient<Database>(supabaseUrl, supabaseAnonKey);
 };
