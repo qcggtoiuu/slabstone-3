@@ -4,16 +4,9 @@ import ProductGrid from "@/components/products/product-grid";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
 import { createClient } from "../../../supabase/server";
-import { Filter, Search, SlidersHorizontal, X } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
+import { Search, X } from "lucide-react";
+import FilterDialog from "@/components/products/filter-dialog";
+import SortButton from "@/components/products/sort-button";
 
 export const metadata: Metadata = {
   title: "Sản phẩm đá cao cấp | Bộ sưu tập đá tự nhiên",
@@ -113,10 +106,12 @@ export default async function ProductsPage({
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
       <Navbar />
 
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Bộ sưu tập đá cao cấp</h1>
+            <h1 className="text-2xl md:text-3xl font-bold mb-2">
+              Bộ sưu tập đá cao cấp
+            </h1>
             <p className="text-gray-600">
               Khám phá bộ sưu tập đá tự nhiên cao cấp của chúng tôi
             </p>
@@ -140,253 +135,27 @@ export default async function ProductsPage({
               />
             </form>
 
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2">
-                  <Filter className="w-4 h-4" />
-                  <span>Lọc</span>
-                  {(colorFilter ||
-                    surfaceFilter ||
-                    applicationFilter ||
-                    minPrice ||
-                    maxPrice) && (
-                    <span className="ml-1 w-5 h-5 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center">
-                      {
-                        [
-                          colorFilter,
-                          surfaceFilter,
-                          applicationFilter,
-                          minPrice || maxPrice ? 1 : null,
-                        ].filter(Boolean).length
-                      }
-                    </span>
-                  )}
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Lọc sản phẩm</DialogTitle>
-                </DialogHeader>
-                <form action="/products" method="get">
-                  {searchQuery && (
-                    <input type="hidden" name="q" value={searchQuery} />
-                  )}
-                  <div className="grid gap-6 py-4">
-                    <div>
-                      <h3 className="font-medium mb-3">Màu sắc</h3>
-                      <div className="grid grid-cols-2 gap-2">
-                        {uniqueColors.map((color) => (
-                          <div
-                            key={color}
-                            className="flex items-center space-x-2"
-                          >
-                            <Checkbox
-                              id={`color-${color}`}
-                              name="color"
-                              value={color}
-                              defaultChecked={colorFilter === color}
-                            />
-                            <label
-                              htmlFor={`color-${color}`}
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              {color}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+            <FilterDialog
+              uniqueColors={uniqueColors}
+              uniqueSurfaces={uniqueSurfaces}
+              uniqueApplications={uniqueApplications}
+              colorFilter={colorFilter}
+              surfaceFilter={surfaceFilter}
+              applicationFilter={applicationFilter}
+              minPrice={minPrice}
+              maxPrice={maxPrice}
+              searchQuery={searchQuery}
+              activeFilterCount={
+                [
+                  colorFilter,
+                  surfaceFilter,
+                  applicationFilter,
+                  minPrice || maxPrice ? 1 : null,
+                ].filter(Boolean).length
+              }
+            />
 
-                    <Separator />
-
-                    <div>
-                      <h3 className="font-medium mb-3">Bề mặt</h3>
-                      <div className="grid grid-cols-2 gap-2">
-                        {uniqueSurfaces.map((surface) => (
-                          <div
-                            key={surface}
-                            className="flex items-center space-x-2"
-                          >
-                            <Checkbox
-                              id={`surface-${surface}`}
-                              name="surface"
-                              value={surface}
-                              defaultChecked={surfaceFilter === surface}
-                            />
-                            <label
-                              htmlFor={`surface-${surface}`}
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              {surface}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <Separator />
-
-                    <div>
-                      <h3 className="font-medium mb-3">Khoảng giá</h3>
-                      <div className="flex items-center gap-2 mb-4">
-                        <input
-                          type="number"
-                          name="minPrice"
-                          placeholder="Giá thấp nhất"
-                          defaultValue={minPrice}
-                          className="w-full p-2 text-sm border border-gray-300 rounded-lg"
-                        />
-                        <span className="text-gray-500">–</span>
-                        <input
-                          type="number"
-                          name="maxPrice"
-                          placeholder="Giá cao nhất"
-                          defaultValue={maxPrice}
-                          className="w-full p-2 text-sm border border-gray-300 rounded-lg"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-2 mb-2">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const form = document.querySelector(
-                              'form[action="/products"]',
-                            );
-                            const minPriceInput = form?.querySelector(
-                              'input[name="minPrice"]',
-                            );
-                            const maxPriceInput = form?.querySelector(
-                              'input[name="maxPrice"]',
-                            );
-                            if (minPriceInput && maxPriceInput) {
-                              (minPriceInput as HTMLInputElement).value =
-                                "1000000";
-                              (maxPriceInput as HTMLInputElement).value =
-                                "2000000";
-                            }
-                          }}
-                          className="p-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50"
-                        >
-                          1tr - 2tr
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const form = document.querySelector(
-                              'form[action="/products"]',
-                            );
-                            const minPriceInput = form?.querySelector(
-                              'input[name="minPrice"]',
-                            );
-                            const maxPriceInput = form?.querySelector(
-                              'input[name="maxPrice"]',
-                            );
-                            if (minPriceInput && maxPriceInput) {
-                              (minPriceInput as HTMLInputElement).value =
-                                "2000000";
-                              (maxPriceInput as HTMLInputElement).value =
-                                "5000000";
-                            }
-                          }}
-                          className="p-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50"
-                        >
-                          2tr - 5tr
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const form = document.querySelector(
-                              'form[action="/products"]',
-                            );
-                            const minPriceInput = form?.querySelector(
-                              'input[name="minPrice"]',
-                            );
-                            const maxPriceInput = form?.querySelector(
-                              'input[name="maxPrice"]',
-                            );
-                            if (minPriceInput && maxPriceInput) {
-                              (minPriceInput as HTMLInputElement).value =
-                                "5000000";
-                              (maxPriceInput as HTMLInputElement).value =
-                                "10000000";
-                            }
-                          }}
-                          className="p-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50"
-                        >
-                          5tr - 10tr
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const form = document.querySelector(
-                              'form[action="/products"]',
-                            );
-                            const minPriceInput = form?.querySelector(
-                              'input[name="minPrice"]',
-                            );
-                            const maxPriceInput = form?.querySelector(
-                              'input[name="maxPrice"]',
-                            );
-                            if (minPriceInput && maxPriceInput) {
-                              (minPriceInput as HTMLInputElement).value =
-                                "10000000";
-                              (maxPriceInput as HTMLInputElement).value = "";
-                            }
-                          }}
-                          className="p-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50"
-                        >
-                          Trên 10tr
-                        </button>
-                      </div>
-                    </div>
-
-                    <Separator />
-
-                    <div>
-                      <h3 className="font-medium mb-3">Ứng dụng</h3>
-                      <div className="grid grid-cols-2 gap-2">
-                        {uniqueApplications.map((application) => (
-                          <div
-                            key={application}
-                            className="flex items-center space-x-2"
-                          >
-                            <Checkbox
-                              id={`application-${application}`}
-                              name="application"
-                              value={application}
-                              defaultChecked={applicationFilter === application}
-                            />
-                            <label
-                              htmlFor={`application-${application}`}
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              {application}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <Button
-                      type="reset"
-                      variant="outline"
-                      onClick={() => (window.location.href = "/products")}
-                    >
-                      Xóa bộ lọc
-                    </Button>
-                    <Button type="submit">Áp dụng</Button>
-                  </div>
-                </form>
-              </DialogContent>
-            </Dialog>
-
-            <Button variant="outline" className="flex items-center gap-2">
-              <SlidersHorizontal className="w-4 h-4" />
-              <span>Sắp xếp</span>
-            </Button>
+            <SortButton />
           </div>
         </div>
 
@@ -404,17 +173,15 @@ export default async function ProductsPage({
               <div className="flex items-center gap-1 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm">
                 <span>Màu: {colorFilter}</span>
                 <a
-                  href={new URL(
-                    `/products?${new URLSearchParams({
-                      ...(surfaceFilter && { surface: surfaceFilter }),
-                      ...(applicationFilter && {
-                        application: applicationFilter,
-                      }),
-                      ...(searchQuery && { q: searchQuery }),
-                      ...(minPrice && { minPrice: minPrice.toString() }),
-                      ...(maxPrice && { maxPrice: maxPrice.toString() }),
-                    })}`,
-                  ).toString()}
+                  href={`/products?${new URLSearchParams({
+                    ...(surfaceFilter && { surface: surfaceFilter }),
+                    ...(applicationFilter && {
+                      application: applicationFilter,
+                    }),
+                    ...(searchQuery && { q: searchQuery }),
+                    ...(minPrice && { minPrice: minPrice.toString() }),
+                    ...(maxPrice && { maxPrice: maxPrice.toString() }),
+                  })}`}
                 >
                   <X className="w-4 h-4" />
                 </a>
@@ -424,17 +191,15 @@ export default async function ProductsPage({
               <div className="flex items-center gap-1 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm">
                 <span>Bề mặt: {surfaceFilter}</span>
                 <a
-                  href={new URL(
-                    `/products?${new URLSearchParams({
-                      ...(colorFilter && { color: colorFilter }),
-                      ...(applicationFilter && {
-                        application: applicationFilter,
-                      }),
-                      ...(searchQuery && { q: searchQuery }),
-                      ...(minPrice && { minPrice: minPrice.toString() }),
-                      ...(maxPrice && { maxPrice: maxPrice.toString() }),
-                    })}`,
-                  ).toString()}
+                  href={`/products?${new URLSearchParams({
+                    ...(colorFilter && { color: colorFilter }),
+                    ...(applicationFilter && {
+                      application: applicationFilter,
+                    }),
+                    ...(searchQuery && { q: searchQuery }),
+                    ...(minPrice && { minPrice: minPrice.toString() }),
+                    ...(maxPrice && { maxPrice: maxPrice.toString() }),
+                  })}`}
                 >
                   <X className="w-4 h-4" />
                 </a>
@@ -444,15 +209,13 @@ export default async function ProductsPage({
               <div className="flex items-center gap-1 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm">
                 <span>Ứng dụng: {applicationFilter}</span>
                 <a
-                  href={new URL(
-                    `/products?${new URLSearchParams({
-                      ...(colorFilter && { color: colorFilter }),
-                      ...(surfaceFilter && { surface: surfaceFilter }),
-                      ...(searchQuery && { q: searchQuery }),
-                      ...(minPrice && { minPrice: minPrice.toString() }),
-                      ...(maxPrice && { maxPrice: maxPrice.toString() }),
-                    })}`,
-                  ).toString()}
+                  href={`/products?${new URLSearchParams({
+                    ...(colorFilter && { color: colorFilter }),
+                    ...(surfaceFilter && { surface: surfaceFilter }),
+                    ...(searchQuery && { q: searchQuery }),
+                    ...(minPrice && { minPrice: minPrice.toString() }),
+                    ...(maxPrice && { maxPrice: maxPrice.toString() }),
+                  })}`}
                 >
                   <X className="w-4 h-4" />
                 </a>
@@ -465,16 +228,14 @@ export default async function ProductsPage({
                   {new Intl.NumberFormat("vi-VN").format(maxPrice)}đ
                 </span>
                 <a
-                  href={new URL(
-                    `/products?${new URLSearchParams({
-                      ...(colorFilter && { color: colorFilter }),
-                      ...(surfaceFilter && { surface: surfaceFilter }),
-                      ...(applicationFilter && {
-                        application: applicationFilter,
-                      }),
-                      ...(searchQuery && { q: searchQuery }),
-                    })}`,
-                  ).toString()}
+                  href={`/products?${new URLSearchParams({
+                    ...(colorFilter && { color: colorFilter }),
+                    ...(surfaceFilter && { surface: surfaceFilter }),
+                    ...(applicationFilter && {
+                      application: applicationFilter,
+                    }),
+                    ...(searchQuery && { q: searchQuery }),
+                  })}`}
                 >
                   <X className="w-4 h-4" />
                 </a>
@@ -486,16 +247,14 @@ export default async function ProductsPage({
                   Giá: Từ {new Intl.NumberFormat("vi-VN").format(minPrice)}đ
                 </span>
                 <a
-                  href={new URL(
-                    `/products?${new URLSearchParams({
-                      ...(colorFilter && { color: colorFilter }),
-                      ...(surfaceFilter && { surface: surfaceFilter }),
-                      ...(applicationFilter && {
-                        application: applicationFilter,
-                      }),
-                      ...(searchQuery && { q: searchQuery }),
-                    })}`,
-                  ).toString()}
+                  href={`/products?${new URLSearchParams({
+                    ...(colorFilter && { color: colorFilter }),
+                    ...(surfaceFilter && { surface: surfaceFilter }),
+                    ...(applicationFilter && {
+                      application: applicationFilter,
+                    }),
+                    ...(searchQuery && { q: searchQuery }),
+                  })}`}
                 >
                   <X className="w-4 h-4" />
                 </a>
@@ -507,16 +266,14 @@ export default async function ProductsPage({
                   Giá: Đến {new Intl.NumberFormat("vi-VN").format(maxPrice)}đ
                 </span>
                 <a
-                  href={new URL(
-                    `/products?${new URLSearchParams({
-                      ...(colorFilter && { color: colorFilter }),
-                      ...(surfaceFilter && { surface: surfaceFilter }),
-                      ...(applicationFilter && {
-                        application: applicationFilter,
-                      }),
-                      ...(searchQuery && { q: searchQuery }),
-                    })}`,
-                  ).toString()}
+                  href={`/products?${new URLSearchParams({
+                    ...(colorFilter && { color: colorFilter }),
+                    ...(surfaceFilter && { surface: surfaceFilter }),
+                    ...(applicationFilter && {
+                      application: applicationFilter,
+                    }),
+                    ...(searchQuery && { q: searchQuery }),
+                  })}`}
                 >
                   <X className="w-4 h-4" />
                 </a>
@@ -541,7 +298,7 @@ export default async function ProductsPage({
         <ProductGrid products={products || []} />
 
         {/* Pagination */}
-        <div className="mt-12 flex justify-center">
+        <div className="mt-8 md:mt-12 flex justify-center">
           <nav className="inline-flex">
             <Button variant="outline" className="rounded-l-md">
               Trước
@@ -562,9 +319,9 @@ export default async function ProductsPage({
         </div>
 
         {/* Why choose our premium stone */}
-        <section className="mt-20 bg-white p-8 rounded-xl shadow-sm">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold mb-3">
+        <section className="mt-12 md:mt-20 bg-white p-6 md:p-8 rounded-xl shadow-sm">
+          <div className="text-center mb-6 md:mb-10">
+            <h2 className="text-xl md:text-2xl font-bold mb-3">
               Tại sao chọn đá cao cấp của chúng tôi?
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -573,7 +330,7 @@ export default async function ProductsPage({
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
             <div className="p-6 rounded-xl border border-gray-100 hover:shadow-md transition-shadow">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
                 <svg

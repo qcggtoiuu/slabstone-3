@@ -16,7 +16,7 @@ export default function ProductGrid({ products = [] }: ProductGridProps) {
   // If no products, show placeholder
   if (products.length === 0) {
     return (
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
         {Array.from({ length: 6 }).map((_, index) => (
           <ProductPlaceholder key={index} />
         ))}
@@ -25,7 +25,7 @@ export default function ProductGrid({ products = [] }: ProductGridProps) {
   }
 
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
@@ -63,7 +63,8 @@ function ProductCard({ product }: { product: Product }) {
             {product.name}
           </h3>
         </Link>
-        <div className="text-sm text-gray-500 mb-3">
+        {/* Mobile: Only show product code on larger screens */}
+        <div className="hidden md:block text-sm text-gray-500 mb-3">
           Mã sản phẩm: {product.code}
         </div>
         <div className="flex justify-between items-center mb-4">
@@ -73,7 +74,8 @@ function ProductCard({ product }: { product: Product }) {
               currency: "VND",
             }).format(product.price)}
           </div>
-          <div className="text-sm text-gray-500">
+          {/* Mobile: Hide surface and finish details on mobile */}
+          <div className="hidden md:block text-sm text-gray-500">
             {product.surface && (
               <span className="inline-block mr-2">{product.surface}</span>
             )}
@@ -308,10 +310,12 @@ function ProductPlaceholder() {
       <AspectRatio ratio={4 / 3} className="bg-gray-200" />
       <div className="p-5">
         <div className="h-5 bg-gray-200 rounded w-3/4 mb-2"></div>
-        <div className="h-4 bg-gray-200 rounded w-1/2 mb-3"></div>
+        {/* Mobile: Hide code placeholder on mobile */}
+        <div className="hidden md:block h-4 bg-gray-200 rounded w-1/2 mb-3"></div>
         <div className="flex justify-between items-center mb-4">
           <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+          {/* Mobile: Hide specs placeholder on mobile */}
+          <div className="hidden md:block h-4 bg-gray-200 rounded w-1/3"></div>
         </div>
         <div className="h-10 bg-gray-200 rounded w-full"></div>
       </div>

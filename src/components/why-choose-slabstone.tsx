@@ -1,14 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+import FeatureDialog from "./feature-dialog";
 import {
   Shield,
   Thermometer,
@@ -35,34 +27,16 @@ const Feature = ({
   bgColor,
   imageUrl,
 }: FeatureProps) => {
-  const [open, setOpen] = useState(false);
-
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <div
-          className={`${bgColor} p-6 rounded-lg flex flex-col items-center justify-center text-center h-full cursor-pointer transition-transform hover:scale-105`}
-        >
-          <div className="mb-4">{icon}</div>
-          <h3 className="font-bold text-lg mb-2">{title}</h3>
-          <p className="text-sm">{description}</p>
-        </div>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
-        <DialogTitle className="text-2xl font-bold mb-2">{title}</DialogTitle>
-        <DialogDescription className="text-base mb-4">
-          {description}
-        </DialogDescription>
-        <div className="relative w-full h-[500px]">
-          <Image
-            src={imageUrl}
-            alt={title}
-            fill
-            className="object-cover rounded-md"
-          />
-        </div>
-      </DialogContent>
-    </Dialog>
+    <FeatureDialog title={title} description={description} imageUrl={imageUrl}>
+      <div
+        className={`${bgColor} p-6 rounded-lg flex flex-col items-center justify-center text-center h-full cursor-pointer transition-transform hover:scale-105`}
+      >
+        <div className="mb-4">{icon}</div>
+        <h3 className="font-bold text-lg mb-2">{title}</h3>
+        <p className="text-sm">{description}</p>
+      </div>
+    </FeatureDialog>
   );
 };
 
